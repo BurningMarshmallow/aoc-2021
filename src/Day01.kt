@@ -18,7 +18,7 @@ fun main() {
 
     fun part2(input: List<String>): Int {
         val values = input.map(Integer::parseInt)
-        val sums = (0..values.count() - 3).map { values[it] + values[it + 1] + values[it + 2] }
+        val sums = values.windowed(3) { it.sum() }
         return countNumOfLarger(sums)
     }
 
