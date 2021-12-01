@@ -6,11 +6,6 @@ In this repository, burningmarshmallow is about to provide solutions for the puz
 
 If you're stuck with Kotlin-specific questions or anything related to this template, check out the following resources:
 
-- [Kotlin docs][docs]
-- [Kotlin Slack][slack]
-- Template [issue tracker][issues]
-
-
 [^aoc]:
     [Advent of Code][aoc] – An annual event of Christmas-oriented programming challenges started December 2015.
     Every year since then, beginning on the first day of December, a programming puzzle is published every day for twenty-four days.
