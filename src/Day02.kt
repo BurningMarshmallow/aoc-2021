@@ -1,10 +1,11 @@
 fun main() {
 
     fun part1(input: List<String>): Int {
-        val instructions = input.map { Pair(it.split(' ')[0], it.split(' ')[1].toInt()) }
+        val instructions = input.map { it.split(' ') }
         var position = 0
         var depth = 0
-        for ((command, units) in instructions) {
+        for ((command, unitsString) in instructions) {
+            val units = unitsString.toInt()
             when (command) {
                 "forward" -> position += units
                 "up" -> depth -= units
@@ -16,11 +17,12 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-        val instructions = input.map { Pair(it.split(' ')[0], it.split(' ')[1].toInt()) }
+        val instructions = input.map { it.split(' ') }
         var position = 0
         var depth = 0
         var aim = 0
-        for ((command, units) in instructions) {
+        for ((command, unitsString) in instructions) {
+            val units = unitsString.toInt()
             when (command) {
                 "forward" -> {
                     position += units
