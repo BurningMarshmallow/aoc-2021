@@ -43,7 +43,7 @@ fun main() {
         val numberOfBits = input[0].count()
         var numbers = input
         for (i in (0 until numberOfBits)) {
-            if  (numbers.count() == 1) {
+            if (numbers.count() == 1) {
                 break
             }
             var oneCount = 0
