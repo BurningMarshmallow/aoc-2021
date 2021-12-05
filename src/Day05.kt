@@ -2,7 +2,12 @@ import kotlin.math.abs
 
 const val FLOOR_SIZE = 1000
 
-data class Point(val x: Int, val y: Int)
+data class Point(var x: Int, var y: Int) {
+    operator fun plusAssign(other: Point) {
+        x += other.x
+        y += other.y
+    }
+}
 
 fun main() {
     fun parsePoint(it: String): Point {
@@ -14,29 +19,23 @@ fun main() {
 
     fun solve(input: List<String>, filterCondition: (value: Pair<Point, Point>) -> Boolean): Int {
         val floor = Array(FLOOR_SIZE) { Array(FLOOR_SIZE) { 0 } }
-        val intervals = input.map {
-            it.split(" -> ")
-        }.map {
-            Pair(parsePoint(it[0]), parsePoint(it[1]))
-        }.filter {
-                filterCondition(it)
-            }
+        val intervals = input.map { it.split(" -> ") }
+            .map { Pair(parsePoint(it[0]), parsePoint(it[1])) }
+            .filter { filterCondition(it) }
         for (interval in intervals) {
             val (start, end) = interval
             val diff = Pair(end.x - start.x, end.y - start.y)
             val max = maxOf(abs(diff.first), abs(diff.second))
-            val diffNormalized = Pair(diff.first / max, diff.second / max)
-            var i = start.x
-            var j = start.y
-            while (i != end.x || j != end.y) {
-                floor[i][j]++
-                i += diffNormalized.first
-                j += diffNormalized.second
+            val diffNormalized = Point(diff.first / max, diff.second / max)
+            val curr = start
+            while (curr != end) {
+                floor[curr.x][curr.y]++
+                curr += diffNormalized
             }
-            floor[i][j]++
+            floor[curr.x][curr.y]++
         }
 
-        return floor.flatten().map { if (it > 1) 1 else 0 }.sum()
+        return floor.flatten().count { it > 1 }
     }
 
     fun part1(input: List<String>): Int {
