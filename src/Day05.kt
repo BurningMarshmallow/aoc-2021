@@ -1,7 +1,5 @@
 import kotlin.math.abs
 
-const val FLOOR_SIZE = 1000
-
 data class Point(var x: Int, var y: Int) {
     operator fun plusAssign(other: Point) {
         x += other.x
@@ -17,8 +15,21 @@ fun main() {
 
     fun onlyHorizontalAndVerticalLines(it: Pair<Point, Point>) = it.first.x == it.second.x || it.first.y == it.second.y
 
+    fun visit(
+        curr: Point,
+        visitedOnce: HashSet<Point>,
+        visitedTwice: HashSet<Point>
+    ) {
+        if (visitedOnce.contains(curr)) {
+            visitedTwice.add(curr.copy())
+        } else {
+            visitedOnce.add(curr.copy())
+        }
+    }
+
     fun solve(input: List<String>, filterCondition: (value: Pair<Point, Point>) -> Boolean): Int {
-        val floor = Array(FLOOR_SIZE) { Array(FLOOR_SIZE) { 0 } }
+        val visitedOnce = HashSet<Point>()
+        val visitedTwice = HashSet<Point>()
         val intervals = input.map { it.split(" -> ") }
             .map { Pair(parsePoint(it[0]), parsePoint(it[1])) }
             .filter { filterCondition(it) }
@@ -29,13 +40,13 @@ fun main() {
             val diffNormalized = Point(diff.first / max, diff.second / max)
             val curr = start
             while (curr != end) {
-                floor[curr.x][curr.y]++
+                visit(curr, visitedOnce, visitedTwice)
                 curr += diffNormalized
             }
-            floor[curr.x][curr.y]++
+            visit(curr, visitedOnce, visitedTwice)
         }
 
-        return floor.flatten().count { it > 1 }
+        return visitedTwice.size
     }
 
     fun part1(input: List<String>): Int {
