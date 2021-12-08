@@ -12,13 +12,14 @@ fun main() {
     fun decode(puzzleInput: String): String {
         val wordsByLength = puzzleInput.split(' ')
             .groupBy { it.length }
+
+        // a is difference
         val two = wordsByLength[2]!!.single()
         val three = wordsByLength[3]!!.single()
-        // a is difference
         val a = three.toSet().subtract(two.toSet()).single()
-        val six = wordsByLength[6]!!
 
         // c is contained only in two of six-es
+        val six = wordsByLength[6]!!
         val counts = six.joinToString(separator = "")
             .groupingBy { it }
             .eachCount()
@@ -35,13 +36,15 @@ fun main() {
             .intersect(fives[1].toSet())
             .intersect(fives[2].toSet())
             .single()
+
         // b is four without c,f,d
         val b = four.toSet()
             .subtract(setOf(c))
             .subtract(setOf(d))
             .subtract(setOf(f))
             .single()
-        // g is contained in all sixes
+
+        // g is contained in all sixes without a,b,f
         val g = six[0].toSet()
             .intersect(six[1].toSet())
             .intersect(six[2].toSet())
