@@ -1,12 +1,8 @@
 fun main() {
     fun countUnique(input: List<String>): Int {
-        val outputCounts = input.map { it.split(" | ")[1] }
+        return input.map { it.split(" | ")[1] }
             .flatMap { it.split(' ') }
-            .filter { listOf(2, 3, 4, 7).contains(it.length) }
-            .groupingBy { it.length }
-            .eachCount()
-
-        return outputCounts.values.sum()
+            .count { listOf(2, 3, 4, 7).contains(it.length) }
     }
 
     fun decode(puzzleInput: String): String {
