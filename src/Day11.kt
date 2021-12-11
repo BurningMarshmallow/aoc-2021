@@ -1,5 +1,5 @@
 fun main() {
-    fun willFlash(value:Int) = value > 9
+    fun willFlash(value: Int) = value > 9
 
     fun flash(i: Int, j: Int, grid: List<MutableList<Int>>) {
         for (dx in -1..1) {
@@ -51,7 +51,7 @@ fun main() {
     fun part1(input: List<String>): Int {
         val curr = input.map { it.toCharArray().map(Char::digitToInt).toMutableList() }
         var total = 0
-        repeat (100) {
+        repeat(100) {
             val flash = simulate(curr)
             total += flash
         }
