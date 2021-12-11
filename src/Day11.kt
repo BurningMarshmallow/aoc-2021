@@ -62,10 +62,11 @@ fun main() {
     fun part2(input: List<String>): Int {
         val curr = input.map { it.toCharArray().map(Char::digitToInt).toMutableList() }
         var step = 0
+        val numOfOctopuses = curr.size * curr[0].size
         while (true) {
             step++
             val flash = simulate(curr)
-            if (flash == curr.size * curr[0].size) {
+            if (flash == numOfOctopuses) {
                 return step
             }
         }
