@@ -6,8 +6,8 @@ fun main() {
 
     fun List<List<Int>>.getRisk(point: Pair<Int, Int>): Int {
         val (y, x) = point
-        val length = this.count()
-        val width = this[0].count()
+        val length = size
+        val width = this[0].size
 
         val shift = y / length + x / width
         return ((this[y % length][x % width] - 1 + shift) % 9) + 1
