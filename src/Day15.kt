@@ -14,8 +14,7 @@ fun main() {
     }
 
     fun List<List<Int>>.bottomRight(scale: Int = 1): Pair<Int, Int> {
-        val count = count()
-        return count * scale - 1 to count * scale - 1
+        return size * scale - 1 to size * scale - 1
     }
 
     fun dijkstra(
