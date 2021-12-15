@@ -1,5 +1,6 @@
 import java.util.*
 
+// Based on https://github.com/AxelUser/aoc-2021/blob/master/src/main/kotlin/solutions/day15/Chiton.kt
 fun main() {
     data class State(val point: Pair<Int, Int>, val risk: Int)
 
