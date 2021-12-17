@@ -24,40 +24,40 @@ fun main() {
         return -1
     }
 
-    fun simulate(bottomLeft: Point, topRight: Point, v: Point): Pair<Boolean, Int> {
+    fun simulate(bottomLeft: Point, topRight: Point, v: Point): Int? {
         val p = Point(0, 0)
         var maxY = Int.MIN_VALUE
-        var inArea = false
+
         for (step in 0..1000) {
             p += v
             maxY = max(maxY, p.y)
 
             if ((bottomLeft.x <= p.x && p.x <= topRight.x) && (bottomLeft.y <= p.y && p.y <= topRight.y)) {
-                inArea = true
+                return maxY
             }
 
             v.x -= sign(v.x)
             v.y -= 1
 
-            if (p.x > topRight.x && v.x >= 0 && !inArea) {
+            if (p.x > topRight.x && v.x >= 0) {
                 break
             }
-            if (p.x < bottomLeft.x && v.x == 0 && !inArea) {
+            if (p.x < bottomLeft.x && v.x == 0) {
                 break
             }
         }
 
-        return inArea to if (inArea) maxY else Int.MIN_VALUE
+        return null
     }
 
-    fun calculateVelocities(input: List<String>): Sequence<Pair<Boolean, Int>> {
+    fun calculateVelocities(input: List<String>): Sequence<Int> {
         val (bottomLeft, topRight) = parse(input)
 
         return sequence {
             for (x in 1..topRight.x) {
                 for (y in bottomLeft.y..-bottomLeft.y) {
                     val result = simulate(bottomLeft, topRight, Point(x, y))
-                    if (result.first) {
+                    if (result != null) {
                         yield(result)
                     }
                 }
@@ -66,7 +66,7 @@ fun main() {
     }
 
     fun part1(input: List<String>): Int {
-        return calculateVelocities(input).maxOf { it.second }
+        return calculateVelocities(input).maxOf { it }
     }
 
     fun part2(input: List<String>): Int {
