@@ -59,11 +59,7 @@ fun main() {
         }
     }
 
-    fun equals(first: SnailfishNumber?, second: SnailfishNumber?): Boolean {
-        if (first == null || second == null) {
-            return first == second
-        }
-
+    fun equals(first: SnailfishNumber, second: SnailfishNumber): Boolean {
         return if (first is Pair && second is Pair) {
             equals(first.left, second.left) && equals(first.right, second.right)
         } else {
