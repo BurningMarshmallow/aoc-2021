@@ -2,22 +2,22 @@ import kotlin.math.abs
 import kotlin.math.max
 
 fun main() {
-    fun readScanners(input: List<String>): MutableList<MutableList<List<Int>>> {
-        val blocks = mutableListOf<MutableList<List<Int>>>()
+    fun readScanners(input: List<String>): MutableList<List<List<Int>>> {
+        val blocks = mutableListOf<List<List<Int>>>()
         var block = mutableListOf<List<Int>>()
         for (line in input) {
             if (line.contains("scanner")) {
                 continue
             }
             if (line.isEmpty()) {
-                blocks.add(block)
+                blocks.add(block.toList())
                 block = mutableListOf()
             } else {
                 block.add(line.split(",").map { it.toInt() })
             }
 
         }
-        blocks.add(block)
+        blocks.add(block.toList())
         return blocks
     }
 
@@ -78,10 +78,10 @@ fun main() {
         return y.toList()
     }
 
-    fun rotate(values: MutableList<List<Int>>): Sequence<MutableList<List<Int>>> {
+    fun rotate(values: List<List<Int>>): Sequence<List<List<Int>>> {
         return sequence {
             for (p in getRotations(mutableListOf(1, 2, 3))) {
-                val next = values.map { transform(p, it) }.toMutableList()
+                val next = values.map { transform(p, it) }
                 yield(next)
             }
         }
@@ -95,7 +95,7 @@ fun main() {
         return listOf(x[0] - y[0], x[1] - y[1], x[2] - y[2])
     }
 
-    fun findCommon(first: MutableList<List<Int>>, second: MutableList<List<Int>>): List<Int>? {
+    fun findCommon(first: List<List<Int>>, second: List<List<Int>>): List<Int>? {
         for (x in first) {
             for (y in second) {
                 val scannerPos = sub(x, y)
@@ -115,9 +115,9 @@ fun main() {
     }
 
     fun findScannerPos(
-        first: MutableList<List<Int>>,
-        second: MutableList<List<Int>>
-    ): Pair<List<Int>, MutableList<List<Int>>>? {
+        first: List<List<Int>>,
+        second: List<List<Int>>
+    ): Pair<List<Int>, List<List<Int>>>? {
         for (next in rotate(second)) {
             val scannerPos = findCommon(first, next)
             if (scannerPos != null) {
@@ -128,8 +128,8 @@ fun main() {
     }
 
     fun calculateNumberOfBeacons(
-        scanners: MutableList<MutableList<List<Int>>>,
-        scannerPositions: MutableMap<Int, List<Int>>
+        scanners: List<List<List<Int>>>,
+        scannerPositions: Map<Int, List<Int>>
     ): Int {
         val beacons = hashSetOf<List<Int>>()
         for ((i, scanner) in scanners.withIndex()) {
@@ -141,7 +141,7 @@ fun main() {
         return beacons.size
     }
 
-    fun solve(input: List<String>): Pair<MutableList<MutableList<List<Int>>>, MutableMap<Int, List<Int>>> {
+    fun solve(input: List<String>): Pair<List<List<List<Int>>>, Map<Int, List<Int>>> {
         val scanners = readScanners(input)
         val scannerPositions = mutableMapOf(0 to listOf(0, 0, 0))
         while (true) {
@@ -160,24 +160,20 @@ fun main() {
                     val result = findScannerPos(scanners[i], scanners[j])
                     if (result != null) {
                         scannerPositions[j] = add(scannerPositions[i]!!, result.first)
-                        scanners[j] = result.second
+                        scanners[j] = result.second.toMutableList()
                     }
                 }
             }
         }
 
-        return scanners to scannerPositions
-    }
-
-    fun part1(result: Pair<MutableList<MutableList<List<Int>>>, MutableMap<Int, List<Int>>>): Int {
-        return calculateNumberOfBeacons(result.first, result.second)
+        return scanners.toList() to scannerPositions.toMap()
     }
 
     fun dist(x: List<Int>, y: List<Int>): Int {
         return x.indices.sumOf { abs(x[it] - y[it]) }
     }
 
-    fun calculateMaxDistance(scannerPositions: MutableMap<Int, List<Int>>): Int {
+    fun calculateMaxDistance(scannerPositions: Map<Int, List<Int>>): Int {
         var maxDistance = -1
         for (x in scannerPositions.values) {
             for (y in scannerPositions.values) {
@@ -188,7 +184,11 @@ fun main() {
         return maxDistance
     }
 
-    fun part2(result: Pair<MutableList<MutableList<List<Int>>>, MutableMap<Int, List<Int>>>): Int {
+    fun part1(result: Pair<List<List<List<Int>>>, Map<Int, List<Int>>>): Int {
+        return calculateNumberOfBeacons(result.first, result.second)
+    }
+
+    fun part2(result: Pair<List<List<List<Int>>>, Map<Int, List<Int>>>): Int {
         return calculateMaxDistance(result.second)
     }
 
