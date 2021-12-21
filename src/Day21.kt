@@ -22,10 +22,10 @@ fun main() {
     }
 
     val probs: Map<Int, Int> = mapOf(3 to 1, 4 to 3, 5 to 6, 6 to 7, 7 to 6, 8 to 3, 9 to 1)
-    val cache: MutableMap<List<Long>, Array<Long>> = mutableMapOf()
+    val cache: MutableMap<String, Array<Long>> = mutableMapOf()
 
     fun solve(pos: Array<Int>, scores: Array<Long> = arrayOf(0, 0), turn: Int = 0): Array<Long> {
-        val cacheKey = listOf(pos[0].toLong(), pos[1].toLong(), scores[0], scores[1], turn.toLong())
+        val cacheKey = "${pos[0]},${pos[1]},${scores[0]},${scores[1]},${turn})"
         if (cache.containsKey(cacheKey)) {
             return cache[cacheKey]!!
         }
