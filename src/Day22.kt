@@ -25,7 +25,7 @@ fun main() {
     }
 
     fun intersects(first: List<IntRange>, second: List<IntRange>): Boolean {
-        return countVolume(intersect(first, second)) != 0.toLong()
+        return countVolume(intersect(first, second)) != 0L
     }
 
     fun inRangeOfFifties(cuboid: Pair<Boolean, List<IntRange>>): Boolean {
