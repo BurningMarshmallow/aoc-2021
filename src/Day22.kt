@@ -47,7 +47,7 @@ fun main() {
         }
 
         return cuboids.filter { filter(it) }
-            .sumOf { (countVolume(it.second) * (if (it.first) 1 else -1)) }
+            .sumOf { countVolume(it.second) * (if (it.first) 1 else -1) }
     }
 
     fun part1(input: List<Pair<Boolean, List<IntRange>>>): Long {
